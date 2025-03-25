@@ -35,42 +35,37 @@ function App() {
               MIND Companion
             </Link>
             <div className="space-x-6">
-              {user || admin ? (
+              {admin ? (
+                // Admin is logged in: show only admin options
                 <>
-                  {user && (
-                    <>
-                      <Link to="/dashboard" className="hover:text-blue-200 transition">
-                        Dashboard
-                      </Link>
-                      <Link to="/daily-routine" className="hover:text-blue-200 transition">
-                        Daily Routine
-                      </Link>
-                      <Link to="/profile" className="hover:text-blue-200 transition">
-                        Profile
-                      </Link>
-                      <Link to="/chat" className="hover:text-blue-200 transition">
-                        Chat
-                      </Link>
-                      <button onClick={handleLogout} className="hover:text-blue-200 transition">
-                        Logout
-                      </button>
-                    </>
-                  )}
-                  {admin && (
-                    <>
-                      <Link to="/admin/dashboard" className="hover:text-blue-200 transition">
-                        Admin Dashboard
-                      </Link>
-                      <button
-                        onClick={handleAdminLogout}
-                        className="hover:text-blue-200 transition"
-                      >
-                        Admin Logout
-                      </button>
-                    </>
-                  )}
+                  <Link to="/admin/dashboard" className="hover:text-blue-200 transition">
+                    Admin Dashboard
+                  </Link>
+                  <button onClick={handleAdminLogout} className="hover:text-blue-200 transition">
+                    Admin Logout
+                  </button>
+                </>
+              ) : user ? (
+                // User (patient) is logged in: show patient options
+                <>
+                  <Link to="/dashboard" className="hover:text-blue-200 transition">
+                    Dashboard
+                  </Link>
+                  <Link to="/daily-routine" className="hover:text-blue-200 transition">
+                    Daily Routine
+                  </Link>
+                  <Link to="/profile" className="hover:text-blue-200 transition">
+                    Profile
+                  </Link>
+                  <Link to="/chat" className="hover:text-blue-200 transition">
+                    Chat
+                  </Link>
+                  <button onClick={handleLogout} className="hover:text-blue-200 transition">
+                    Logout
+                  </button>
                 </>
               ) : (
+                // No one is logged in: show login/signup options
                 <>
                   <Link to="/login" className="hover:text-blue-200 transition">
                     Login

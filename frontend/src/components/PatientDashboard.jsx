@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Chat from "./chat";
+import EmotionalTimeline from "./EmotionalTimeline"; // Adjust the path based on your file structure
+import MindCompanion from "./MindCompanion"; // Adjust the path based on your file structure
 
 const PatientDashboard = () => {
   const navigate = useNavigate();
@@ -186,6 +188,94 @@ const PatientDashboard = () => {
             </button>
 
             <button
+              className={`w-full flex items-center px-3 py-2 rounded-md ${
+                activeTab === "timeline"
+                  ? "bg-gray-100 text-blue-600 font-medium"
+                  : "text-gray-600 hover:bg-gray-50"
+              }`}
+              onClick={() => setActiveTab("timeline")}
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M7 12h10m-5-9v18m-9-6h18"
+                ></path>
+              </svg>
+              Emotional Timeline
+            </button>
+
+            <button
+              className={`w-full flex items-center px-3 py-2 rounded-md ${
+                activeTab === "community"
+                  ? "bg-gray-100 text-blue-600 font-medium"
+                  : "text-gray-600 hover:bg-gray-50"
+              }`}
+              onClick={() => setActiveTab("community")}
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 4v16m8-8H4"
+                ></path>
+              </svg>
+              Community
+            </button>
+
+            <button
+              className={`w-full flex items-center px-3 py-2 rounded-md text-gray-600 hover:bg-gray-50`}
+              onClick={async () => {
+                try {
+                  const token = localStorage.getItem("token");
+                  if (!token) {
+                    alert("Please log in first");
+                    return;
+                  }
+                  await axios.post(
+                    "http://localhost:5000/api/run-whatsapp",
+                    {},
+                    { headers: { Authorization: `Bearer ${token}` } }
+                  );
+                  alert("WhatsApp script is running in a new browser window!");
+                } catch (error) {
+                  console.error("Error running WhatsApp script:", error);
+                  alert("Failed to start WhatsApp script. Please try again.");
+                }
+              }}
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5v-2l4-4 4 4V16h-4z"
+                ></path>
+              </svg>
+              Talk on WhatsApp
+            </button>
+
+            <button
               className="w-full flex items-center px-3 py-2 rounded-md text-gray-600 hover:bg-gray-50"
               onClick={() => navigate("/daily-routine")}
             >
@@ -289,6 +379,45 @@ const PatientDashboard = () => {
           <span className="font-bold text-lg">Mental Wellness</span>
         </div>
 
+        <button
+          className={`w-full flex items-center px-3 py-2 rounded-md text-gray-600 hover:bg-gray-50`}
+          onClick={async () => {
+            try {
+              const token = localStorage.getItem("token");
+              if (!token) {
+                alert("Please log in first");
+                return;
+              }
+              await axios.post(
+                "http://localhost:5000/api/run-whatsapp",
+                {},
+                { headers: { Authorization: `Bearer ${token}` } }
+              );
+              alert("WhatsApp script is running in a new browser window!");
+              setMobileMenuOpen(false);
+            } catch (error) {
+              console.error("Error running WhatsApp script:", error);
+              alert("Failed to start WhatsApp script. Please try again.");
+            }
+          }}
+        >
+          <svg
+            className="mr-2 h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M8 10h.01M12 10h.01M16 10h.01M9 16H5v-2l4-4 4 4V16h-4z"
+            ></path>
+          </svg>
+          Talk on WhatsApp
+        </button>
+
         <button className="p-2 rounded-md text-gray-500" onClick={toggleChat}>
           <svg
             className="h-5 w-5"
@@ -306,7 +435,6 @@ const PatientDashboard = () => {
           </svg>
         </button>
       </div>
-
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden">
@@ -435,6 +563,62 @@ const PatientDashboard = () => {
                   ></path>
                 </svg>
                 Progress
+              </button>
+
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  activeTab === "timeline"
+                    ? "bg-gray-100 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+                onClick={() => {
+                  setActiveTab("timeline");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M7 12h10m-5-9v18m-9-6h18"
+                  ></path>
+                </svg>
+                Emotional Timeline
+              </button>
+
+              <button
+                className={`w-full flex items-center px-3 py-2 rounded-md ${
+                  activeTab === "community"
+                    ? "bg-gray-100 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+                onClick={() => {
+                  setActiveTab("community");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 4v16m8-8H4"
+                  ></path>
+                </svg>
+                Community
               </button>
 
               <button
@@ -1064,6 +1248,41 @@ const PatientDashboard = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "timeline" && (
+          <div className="p-6">
+            <h1 className="text-2xl font-bold mb-6">Your Emotional Timeline</h1>
+
+            <div className="bg-white rounded-lg shadow-md">
+              <div className="p-4 border-b">
+                <h2 className="text-lg font-medium">Mood Insights</h2>
+              </div>
+              <div className="p-4">
+                {/* This will be dynamically populated by the EmotionalTimeline component */}
+                <EmotionalTimeline />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "community" && (
+          <div className="p-6">
+            <h1 className="text-2xl font-bold mb-6">Community</h1>
+
+            <div className="bg-white rounded-lg shadow-md">
+              <div className="p-4 border-b">
+                <h2 className="text-lg font-medium">Mind Companion Community</h2>
+              </div>
+              <div className="p-4">
+                <iframe
+                  src="http://127.0.0.1:3000/"
+                  className="w-full h-[70vh] border-none"
+                  title="Mind Companion Community"
+                ></iframe>
               </div>
             </div>
           </div>

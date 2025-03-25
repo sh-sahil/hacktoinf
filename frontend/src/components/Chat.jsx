@@ -1,7 +1,6 @@
-"use client";
-
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { CheckboxIndicator } from "@radix-ui/react-checkbox";
 
 const Chat = ({ isFloating = false }) => {
   const [message, setMessage] = useState("");
@@ -32,6 +31,7 @@ const Chat = ({ isFloating = false }) => {
     if (!message.trim() || isLoading) return;
 
     const token = localStorage.getItem("token");
+    console.log(token);
     if (!token) {
       alert("Please login first");
       return;
@@ -43,8 +43,8 @@ const Chat = ({ isFloating = false }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/interact",
-        { textInput: message, voiceInput: null },
+        "http://localhost:5000/api/chat-with-grok",
+        { message }, // Send the message to the updated endpoint
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -72,8 +72,6 @@ const Chat = ({ isFloating = false }) => {
   };
 
   const toggleListening = () => {
-    // This would be implemented with the Web Speech API
-    // For now, just toggle the state for UI demonstration
     setIsListening(!isListening);
 
     if (!isListening) {
@@ -86,14 +84,14 @@ const Chat = ({ isFloating = false }) => {
   };
 
   const speakMessage = text => {
-    // This would use the Web Speech API to speak the message
+    // Placeholder for Web Speech API
     alert(`Speaking: ${text}`);
   };
 
   // Get distress level color
   const getDistressColor = score => {
-    if (score < 3) return "bg-green-100 text-green-800";
-    if (score < 7) return "bg-amber-100 text-amber-800";
+    if (score < 30) return "bg-green-100 text-green-800"; // Adjusted thresholds for better granularity
+    if (score < 70) return "bg-amber-100 text-amber-800";
     return "bg-red-100 text-red-800";
   };
 

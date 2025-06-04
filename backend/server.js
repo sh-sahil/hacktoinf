@@ -19,7 +19,7 @@ mongoose
   .catch(err => console.error("MongoDB connection error:", err));
 
 const JWT_SECRET = "your_jwt_secret_key";
-const GROQ_API_KEY = "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"; // Your Grok API key
+const GROQ_API_KEY = "your-groq-api"; // Your Grok API key
 const groq = new Groq({ apiKey: GROQ_API_KEY });
 
 // User Schema
